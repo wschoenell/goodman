@@ -1,0 +1,14 @@
+# main links
+main:
+  #- title: "Quick-Start Guide"
+  #  url: https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/
+  - title: "About"
+    url: https://b1quint.github.io/goodman/about/
+  - title: "Download"
+    url: https://b1quint.github.io/goodman/download/
+  - title: "Install"
+    url: https://b1quint.github.io/goodman/install/
+  - title: "Run"
+    url: https://b1quint.github.io/goodman/run/
+  - title: "Sphix Docs"
+    url: https://b1quint.github.io/goodman/docs.html

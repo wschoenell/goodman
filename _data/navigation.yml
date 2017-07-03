@@ -10,5 +10,5 @@ main:
     url: https://b1quint.github.io/goodman/install/
   - title: "Run"
     url: https://b1quint.github.io/goodman/run/
-  - title: "Sphix Docs"
+  - title: "Sphinx Docs"
     url: https://b1quint.github.io/goodman/docs.html

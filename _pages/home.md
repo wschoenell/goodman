@@ -11,9 +11,9 @@ excerpt: 'The new pipeline to reduce data obtained with the Goodman Spectrograph
           an instrument at the SOAR Telescope.<br /> <small>
           <a href="/download/">Latest release v1.0b1</a></small><br /><br />
           {::nomarkdown}
-            <iframe style="display: inline-block;" src="https://ghbtns.com/github-btn.html?user=b1quint&repo=goodman&type=star&count=true&size=large" frameborder="0" scrolling="0" width="160px" height="30px"></iframe>
-            <iframe style="display: inline-block;" src="https://ghbtns.com/github-btn.html?user=b1quint&repo=goodman&type=watch&count=true&size=large" frameborder="0" scrolling="0" width="160px" height="30px"></iframe>
-            <iframe style="display: inline-block;" src="https://ghbtns.com/github-btn.html?user=b1quint&repo=goodman&type=fork&count=true&size=large" frameborder="0" scrolling="0" width="158px" height="30px"></iframe>
+            <iframe style="display: inline-block;" src="https://ghbtns.com/github-btn.html?user=soar-telescope&repo=goodman&type=star&count=true&size=large" frameborder="0" scrolling="0" width="160px" height="30px"></iframe>
+            <iframe style="display: inline-block;" src="https://ghbtns.com/github-btn.html?user=soar-telescope&repo=goodman&type=watch&count=true&size=large" frameborder="0" scrolling="0" width="160px" height="30px"></iframe>
+            <iframe style="display: inline-block;" src="https://ghbtns.com/github-btn.html?user=soar-telescope&repo=goodman&type=fork&count=true&size=large" frameborder="0" scrolling="0" width="158px" height="30px"></iframe>
           {:/nomarkdown}'
 feature_row:
   - image_path: /assets/images/download.svg

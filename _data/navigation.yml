@@ -3,12 +3,12 @@ main:
   #- title: "Quick-Start Guide"
   #  url: https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/
   - title: "About"
-    url: https://b1quint.github.io/goodman/about/
+    url: /about/
   - title: "Download"
-    url: https://b1quint.github.io/goodman/download/
+    url: /download/
   - title: "Install"
-    url: https://b1quint.github.io/goodman/install/
+    url: /install/
   - title: "Run"
-    url: https://b1quint.github.io/goodman/run/
+    url: /run/
   - title: "Sphinx Docs"
-    url: https://b1quint.github.io/goodman/docs.html
+    url: /docs/index.html

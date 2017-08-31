@@ -11,9 +11,9 @@ excerpt: 'The new pipeline to reduce data obtained with the Goodman Spectrograph
           an instrument at the SOAR Telescope.<br /> <small>
           <a href="/download/">Latest release v1.0b1</a></small><br /><br />
           {::nomarkdown}
-            <iframe style="display: inline-block;" src="https://ghbtns.com/github-btn.html?user=soar-telescope&repo=goodman&type=star&count=true&size=large" frameborder="0" scrolling="0" width="160px" height="30px"></iframe>
-            <iframe style="display: inline-block;" src="https://ghbtns.com/github-btn.html?user=soar-telescope&repo=goodman&type=watch&count=true&size=large" frameborder="0" scrolling="0" width="160px" height="30px"></iframe>
-            <iframe style="display: inline-block;" src="https://ghbtns.com/github-btn.html?user=soar-telescope&repo=goodman&type=fork&count=true&size=large" frameborder="0" scrolling="0" width="158px" height="30px"></iframe>
+            <a class="github-button" href="https://github.com/soar-telescope/goodman/subscription" data-icon="octicon-eye" data-size="large" data-show-count="true" aria-label="Watch soar-telescope/goodman on GitHub">Watch</a>            
+            <a class="github-button" href="https://github.com/soar-telescope/goodman" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star soar-telescope/goodman on GitHub">Star</a>
+            <a class="github-button" href="https://github.com/soar-telescope/goodman/issues" data-icon="octicon-issue-opened" data-size="large" data-show-count="true" aria-label="Issue soar-telescope/goodman on GitHub">Issue</a>         
           {:/nomarkdown}'
 feature_row:
   - image_path: /assets/images/download.svg

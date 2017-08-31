@@ -11,4 +11,4 @@ main:
   - title: "Run"
     url: /run/
   - title: "Sphinx Docs"
-    url: /docs/index.html
+    url: /sphinx/html/index.html

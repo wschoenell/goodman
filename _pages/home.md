@@ -11,6 +11,7 @@ excerpt: 'The new pipeline to reduce data obtained with the Goodman Spectrograph
           an instrument at the SOAR Telescope.<br /> <small>
           <a href="/download/">Latest release v1.0b1</a></small><br /><br />
           {::nomarkdown}
+            <script async defer src="https://buttons.github.io/buttons.js"></script>
             <a class="github-button" href="https://github.com/soar-telescope/goodman/subscription" data-icon="octicon-eye" data-size="large" data-show-count="true" aria-label="Watch soar-telescope/goodman on GitHub">Watch</a>            
             <a class="github-button" href="https://github.com/soar-telescope/goodman" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star soar-telescope/goodman on GitHub">Star</a>
             <a class="github-button" href="https://github.com/soar-telescope/goodman/issues" data-icon="octicon-issue-opened" data-size="large" data-show-count="true" aria-label="Issue soar-telescope/goodman on GitHub">Issue</a>         

@@ -4,9 +4,6 @@
 
 $(document).ready(function(){
 
-  // Link to add GitHub Buttons
-  async defer src="https://buttons.github.io/buttons.js";
-
   // Sticky footer
   var bumpIt = function() {
       $('body').css('margin-bottom', $('.page__footer').outerHeight(true));

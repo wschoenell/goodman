@@ -17,21 +17,21 @@ excerpt: 'The new pipeline to reduce data obtained with the Goodman Spectrograph
             <a class="github-button" href="https://github.com/soar-telescope/goodman/issues" data-icon="octicon-issue-opened" data-size="large" data-show-count="true" aria-label="Issue soar-telescope/goodman on GitHub">Issue</a>         
           {:/nomarkdown}'
 feature_row:
-  - image_path: /assets/images/download.svg
+  - image_path: /assets/images/download.png
     alt: "Get the Pipeline"
     title: "Get the Pipeline"
     excerpt: "Download or clone the Git repository to have Goodman Data-Reduction Pipeline in your computer."
     url: "/download/"
     btn_label: "Learn More"
 
-  - image_path: /assets/images/run.svg
+  - image_path: /assets/images/run.png
     alt: "Install"
     title: "Install"
     excerpt: "Check here how to install the pipeline in your computer or to check how to get information to run it in our servers."
     url: "/install/"
     btn_label: "Learn More"
 
-  - image_path: /assets/images/reduce.svg
+  - image_path: /assets/images/reduce.png
     alt: "Run"
     title: "Run"
     excerpt: "Click below to check how to run your pipeline and reduce your data!"

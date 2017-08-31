@@ -14,7 +14,10 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r"
-   sodipodi:docname="download.svg">
+   sodipodi:docname="download.svg"
+   inkscape:export-filename="/home/bquint/GitHub/goodman/assets/images/download.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
   <metadata
      id="metadata10">
     <rdf:RDF>
@@ -65,9 +68,9 @@
      id="namedview6"
      showgrid="false"
      inkscape:zoom="2.4583333"
-     inkscape:cx="87.394072"
+     inkscape:cx="26.987292"
      inkscape:cy="10.213676"
-     inkscape:window-x="1280"
+     inkscape:window-x="1279"
      inkscape:window-y="0"
      inkscape:window-maximized="0"
      inkscape:current-layer="svg2" />

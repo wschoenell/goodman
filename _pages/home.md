@@ -7,8 +7,8 @@ header:
   cta_label: "<i class='fa fa-download'></i> Install Now"
   cta_url: "/install/"
   caption:
-excerpt: 'The new pipeline to reduce data obtained with the Goodman Spectrograph,
-          an instrument at the SOAR Telescope.<br /> <small>
+excerpt: 'The SOAR Telescope\'s official data reduction pipeline for the Goodman
+          High Throughput Spectrograh.<br /> <small>
           <a href="/goodman/download/">Latest release v1.0b1</a></small><br /><br />
           {::nomarkdown}
             <script async defer src="https://buttons.github.io/buttons.js"></script>
@@ -43,10 +43,10 @@ intro:
   - excerpt: ''
 ---
 
-This is a Beta Release Candidate version of this pipeline,
-although we have thoroughly tested it there might (and will) still be bugs.
-Please let us know if you find any.
-My e-mail is storres [at] ctio noao edu.
+The Goodman High Throughput Spectrograph (Goodman HTS) Data-Reduction Pipeline
+is currently in its first beta release version. We have thoroughly tested it but
+we know there are still _bugs to be found_. If you found one or have any comment
+please contact Simon Torres at storres [at] ctio noao edu.
 
 The Goodman High Throughput Spectrograph is an imaging spectrograph,
 if you wish to know more about the instrument please check the

@@ -7,7 +7,7 @@ header:
   cta_label: "<i class='fa fa-download'></i> Install Now"
   cta_url: "/install/"
   caption:
-excerpt: 'The SOAR Telescope\'s official data reduction pipeline for the Goodman
+excerpt: 'The SOAR Telescope official data reduction pipeline for the Goodman
           High Throughput Spectrograh.<br /> <small>
           <a href="/goodman/download/">Latest release v1.0b1</a></small><br /><br />
           {::nomarkdown}

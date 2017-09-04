@@ -38,7 +38,7 @@ feature_row:
     url: "/run/"
     btn_label: "Learn More"
 intro:
-  - excerpt: '{::nomarkdown}<a class="social-icons fa-github" href="https://github.com/soar-telescope/goodman">View on GitHub</a>{:/nomarkdown}'
+  - excerpt: '{::nomarkdown}<a class="social-icons fa-github" href="https://github.com/soar-telescope/goodman">  View on GitHub</a>{:/nomarkdown}'
 ---
 
 The Goodman High Throughput Spectrograph (Goodman HTS) Data-Reduction Pipeline

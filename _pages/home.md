@@ -37,10 +37,8 @@ feature_row:
     excerpt: "Click below to check how to run your pipeline and reduce your data!"
     url: "/run/"
     btn_label: "Learn More"
-github:
-  - excerpt: '{::nomarkdown}<iframe style="display: inline-block;" src="https://ghbtns.com/github-btn.html?user=mmistakes&repo=minimal-mistakes&type=star&count=true&size=large" frameborder="0" scrolling="0" width="160px" height="30px"></iframe> <iframe style="display: inline-block;" src="https://ghbtns.com/github-btn.html?user=mmistakes&repo=minimal-mistakes&type=fork&count=true&size=large" frameborder="0" scrolling="0" width="158px" height="30px"></iframe>{:/nomarkdown}'
 intro:
-  - excerpt: '{::nomarkdown}<a href="https://github.com/soar-telescope/goodman">View on GitHub</a>{:/nomarkdown}'
+  - excerpt: '{::nomarkdown}<a class="social-icons fa-github" href="https://github.com/soar-telescope/goodman">View on GitHub</a>{:/nomarkdown}'
 ---
 
 The Goodman High Throughput Spectrograph (Goodman HTS) Data-Reduction Pipeline
@@ -52,6 +50,6 @@ The Goodman High Throughput Spectrograph is an imaging spectrograph,
 if you wish to know more about the instrument please check the
 [Goodman Page at the SOAR website](http://www.ctio.noao.edu/soar/content/goodman-high-throughput-spectrograph).
 
-{% include feature_row id="intro" type="center" %}
-
 {% include feature_row %}
+
+{% include feature_row id="intro"%}

@@ -1,6 +1,7 @@
 from __future__ import (absolute_import, division, print_function,
                         unicode_literals)
 import os
+import pdb
 import re
 import sys
 import time
@@ -9,6 +10,8 @@ import logging
 import calendar
 import ccdproc
 import datetime
+
+import matplotlib
 import numpy as np
 import math
 import pandas
@@ -17,7 +20,7 @@ import shutil
 import subprocess
 
 from threading import Timer
-# matplotlib.use('Qt5Agg')
+matplotlib.use('Qt5Agg')
 from matplotlib import pyplot as plt
 from ccdproc import CCDData, ImageFileCollection
 from astropy.coordinates import EarthLocation
@@ -288,9 +291,9 @@ def classify_spectroscopic_data(path, search_pattern):
     for i in pifc.index.tolist():
         radeg, decdeg = ra_dec_to_deg(pifc.obsra.iloc[i], pifc.obsdec.iloc[i])
 
-        pifc.iloc[i, pifc.columns.get_loc('radeg')] = '{:.2f}'.format(radeg)
+        pifc.iloc[i, pifc.columns.get_loc('radeg')] = '{:.1f}'.format(radeg)
 
-        pifc.iloc[i, pifc.columns.get_loc('decdeg')] = '{:.2f}'.format(decdeg)
+        pifc.iloc[i, pifc.columns.get_loc('decdeg')] = '{:.1f}'.format(decdeg)
         # now we can compare using degrees
 
     confs = pifc.groupby(['slit',
@@ -2400,6 +2403,7 @@ class ReferenceData(object):
 
         # print(filtered_collection)
         if filtered_collection.empty:
+            pdb.set_trace()
             raise NotImplementedError("It was not possible to find any lamps "
                                       "that match")
         elif len(filtered_collection) == 1:
@@ -2456,6 +2460,7 @@ class ReferenceData(object):
         Returns:
 
         """
+        # pdb.set_trace()
         lamps = comp_group.groupby(['object',
                                     'grating',
                                     'grt_targ',
@@ -2478,6 +2483,7 @@ class ReferenceData(object):
                 # print(new_group.file)
                 return new_group
             else:
+                pdb.set_trace()
                 self.log.warning("The target's comparison lamps do not have "
                                  "reference lamps.")
                 self.log.debug("In this case a compatible lamp will be "

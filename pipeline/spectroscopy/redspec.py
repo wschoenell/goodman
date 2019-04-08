@@ -13,6 +13,8 @@ Simon Torres 2016-06-28
 from __future__ import (absolute_import, division, print_function,
                         unicode_literals)
 
+import pdb
+
 from .wavelength import WavelengthCalibration
 from ..core import (classify_spectroscopic_data,
                     search_comp_group,

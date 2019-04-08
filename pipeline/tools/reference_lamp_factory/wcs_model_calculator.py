@@ -48,10 +48,11 @@ class GSPWcsCalculator(object):
             self.ccd = self.wcs.write_gsp_wcs(self.ccd, wcs_model)
             image_name = os.path.basename(self.ccd.header['GSP_FNAM'])
             # new_name = os.path.join(self.path, image_name[24:])
-            new_name = image_name[24:]
+            new_name = 'll_'+image_name #[24:]
             # print(new_name, image_name)
             self.ccd.header.set('GSP_FNAM', value=new_name)
             if save:
+                print('@@@>', new_name)
                 self.ccd.write(new_name, overwrite=True)
 
             self._pdf_generator(model=wcs_model)
@@ -167,55 +168,55 @@ class GSPWcsCalculator(object):
         pdf_file_name = os.path.join(self.save_pdf_to,
                                      re.sub('.fits', '.pdf', file_name))
 
-        with PdfPages(pdf_file_name) as pdf:
-            plt.figure(1, (40, 10))
-            plt.plot(model(range(len(self.ccd.data))), self.ccd.data, color='k')
-            line_spacer = 0
-
-            top_lim = 1.3 * self.ccd.data.max()
-            bottom_lim = self.ccd.data.min() - 0.05 * self.ccd.data.max()
-            plt.ylim((bottom_lim, top_lim))
-            plt.xlim((model(0), model(len(self.ccd.data))))
-
-            for i in range(len(self.angstrom)):
-                line_str = "{:.4f} {:s}".format(self.angstrom[i], str(self.spectrum[i]))
-                try:
-                    if self.angstrom[i+1] - self.angstrom[i] < 25:
-                        line_spacer = (25 - (self.angstrom[i+1] - self.angstrom[i]))
-                        y_spacer = 0.1 * self.ccd.data.max()
-                    elif line_spacer > 0:
-                        line_spacer *= -1
-                    else:
-                        line_spacer = 0
-                        y_spacer = 0
-                    # print(line_spacer)
-                except IndexError:
-                    line_spacer = 0
-                    y_spacer = 0
-                x_pos = self.angstrom[i]
-                y_pos = np.max((self.ccd.data[int(np.floor(self.pixel[i]))],
-                                self.ccd.data[int(np.ceil(self.pixel[i]))]))
-                y_offset = 0.05 * self.ccd.data.max()
-                # plt.plot(x_pos, y_pos, x_pos - line_spacer, y_pos + y_offset, color='r')
-                # y_min = y_pos / self.ccd.data.max()
-                # y_max = (y_pos + y_offset) / self.ccd.data.max()
-                # plt.axvline(x=x_pos, ymin=y_min, ymax=y_max, color='r')
-                plt.text(x_pos, y_pos + y_offset, line_str, rotation=90,
-                         verticalalignment='bottom',
-                         horizontalalignment='center')
-                # plt.axvline(aline, color='r', alpha=0.5)
-
-            title = "{:s} - {:s} - {:s}".format(self.ccd.header['OBJECT'],
-                                                self.ccd.header['WAVMODE'],
-                                                self.ccd.header['SLIT'])
-            plt.title(title)
-            plt.xlabel('Wavelength (Angstrom)')
-            plt.ylabel('Intensity (ADU)')
-            plt.tight_layout()
-            pdf.savefig()
-            # pdf.close()
-            # plt.show()
-            plt.close()
+        # with PdfPages(pdf_file_name) as pdf:
+        #     plt.figure(1, (40, 10))
+        #     plt.plot(model(range(len(self.ccd.data))), self.ccd.data, color='k')
+        #     line_spacer = 0
+        #
+        #     top_lim = 1.3 * self.ccd.data.max()
+        #     bottom_lim = self.ccd.data.min() - 0.05 * self.ccd.data.max()
+        #     plt.ylim((bottom_lim, top_lim))
+        #     plt.xlim((model(0), model(len(self.ccd.data))))
+        #
+        #     for i in range(len(self.angstrom)):
+        #         line_str = "{:.4f} {:s}".format(self.angstrom[i], str(self.spectrum[i]))
+        #         try:
+        #             if self.angstrom[i+1] - self.angstrom[i] < 25:
+        #                 line_spacer = (25 - (self.angstrom[i+1] - self.angstrom[i]))
+        #                 y_spacer = 0.1 * self.ccd.data.max()
+        #             elif line_spacer > 0:
+        #                 line_spacer *= -1
+        #             else:
+        #                 line_spacer = 0
+        #                 y_spacer = 0
+        #             # print(line_spacer)
+        #         except IndexError:
+        #             line_spacer = 0
+        #             y_spacer = 0
+        #         x_pos = self.angstrom[i]
+        #         y_pos = np.max((self.ccd.data[int(np.floor(self.pixel[i]))],
+        #                         self.ccd.data[int(np.ceil(self.pixel[i]))]))
+        #         y_offset = 0.05 * self.ccd.data.max()
+        #         # plt.plot(x_pos, y_pos, x_pos - line_spacer, y_pos + y_offset, color='r')
+        #         # y_min = y_pos / self.ccd.data.max()
+        #         # y_max = (y_pos + y_offset) / self.ccd.data.max()
+        #         # plt.axvline(x=x_pos, ymin=y_min, ymax=y_max, color='r')
+        #         plt.text(x_pos, y_pos + y_offset, line_str, rotation=90,
+        #                  verticalalignment='bottom',
+        #                  horizontalalignment='center')
+        #         # plt.axvline(aline, color='r', alpha=0.5)
+        #
+        #     title = "{:s} - {:s} - {:s}".format(self.ccd.header['OBJECT'],
+        #                                         self.ccd.header['WAVMODE'],
+        #                                         self.ccd.header['SLIT'])
+        #     plt.title(title)
+        #     plt.xlabel('Wavelength (Angstrom)')
+        #     plt.ylabel('Intensity (ADU)')
+        #     plt.tight_layout()
+        #     pdf.savefig()
+        #     # pdf.close()
+        #     # plt.show()
+        #     plt.close()
 
 
 if __name__ == '__main__':

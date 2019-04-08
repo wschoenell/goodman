@@ -22,6 +22,11 @@ import sys
 
 import astropy.units as u
 
+import matplotlib
+
+# matplotlib.use('Qt5Agg')
+matplotlib.use("Agg")
+
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
 import numpy as np
@@ -30,7 +35,6 @@ from astropy.convolution import convolve, Gaussian1DKernel, Box1DKernel
 from astropy.modeling import models, fitting
 from astropy.stats import sigma_clip
 from ccdproc import CCDData
-from matplotlib.backends.backend_pdf import PdfPages
 from scipy import signal
 
 from ..wcs.wcs import WCS
@@ -38,9 +42,9 @@ from ..wcs.wcs import WCS
 from ..core import (write_fits)
 from ..core import (ReferenceData)
 
-
 SHOW_PLOTS = False
 
+plt.ion()
 
 class WavelengthCalibration(object):
     """Wavelength Calibration Class
@@ -212,7 +216,7 @@ class WavelengthCalibration(object):
                 #         object_name=object_name)
                 # else:
                 self._automatic_wavelength_solution(
-                        corr_tolerance=self.cross_corr_tolerance)
+                    corr_tolerance=self.cross_corr_tolerance)
 
                 if self.wsolution is not None:
 
@@ -237,8 +241,8 @@ class WavelengthCalibration(object):
                     self.log.error('It was not possible to get a wavelength '
                                    'solution from lamp '
                                    '{:s} {:s}.'.format(
-                                       self.lamp.header['GSP_FNAM'],
-                                       self.lamp.header['OBJECT']))
+                        self.lamp.header['GSP_FNAM'],
+                        self.lamp.header['OBJECT']))
                     continue
 
             if len(wavelength_solutions) > 1:
@@ -365,8 +369,7 @@ class WavelengthCalibration(object):
         """
         # TODO (simon): Implement the use of the binning value
         try:
-            reference_lamp_ccd = self.reference_data.get_reference_lamp(
-                header=self.lamp.header)
+            reference_lamp_ccd = self.reference_data.get_reference_lamp(header=self.lamp.header)
 
             self.log.debug('Found reference lamp: '
                            '{:s}'.format(reference_lamp_ccd.header['GSP_FNAM']))
@@ -451,7 +454,7 @@ class WavelengthCalibration(object):
                 self.log.debug("Local cross correlation value {:.3f} is too far"
                                " from global cross correlation value "
                                "{:.3f}".format(correlation_value,
-                                             global_cross_corr))
+                                               global_cross_corr))
 
             if False:
                 print(global_cross_corr, correlation_value)
@@ -473,7 +476,7 @@ class WavelengthCalibration(object):
                 plt.draw()
                 plt.pause(1)
                 plt.clf()
-                plt.ioff()
+                # plt.ioff()
 
         # This is good and necessary as a first approach for some very wrong
         # correlation results
@@ -550,8 +553,14 @@ class WavelengthCalibration(object):
                 self.i_fig = plt.figure(figsize=(15, 10))
                 self.i_fig.canvas.set_window_title(
                     'Automatic Wavelength Solution')
-                self.ax1 = self.i_fig.add_subplot(111)
+                self.ax1 = self.i_fig.add_subplot(212)
                 self.ax1.set_rasterization_zorder(1)
+                self.ax2 = self.i_fig.add_subplot(231)
+                self.ax2.set_rasterization_zorder(1)
+                self.ax3 = self.i_fig.add_subplot(232)
+                self.ax3.set_rasterization_zorder(1)
+                self.ax4 = self.i_fig.add_subplot(233)
+                self.ax4.set_rasterization_zorder(1)
             # else:
             #     print("clear figure")
             #     self.i_fig.clf()
@@ -560,8 +569,8 @@ class WavelengthCalibration(object):
             if not self.args.debug_mode:
                 plt.ion()
                 # plt.show()
-            else:
-                plt.ioff()
+            # else:
+            #     plt.ioff()
 
             self.ax1.plot([], color='m', label='Pixels')
             self.ax1.plot([], color='c', label='Angstrom')
@@ -599,50 +608,82 @@ class WavelengthCalibration(object):
             self.ax1.legend(loc='best')
             self.i_fig.tight_layout()
 
+            # Zoom plots (upper 3 panels)
+            r = (3800, 4200)
+            m1 = np.bitwise_and(r[0] < reference_lamp_wav_axis, reference_lamp_wav_axis < r[1])
+            m2 = np.bitwise_and(r[0] < self.wsolution(self.raw_pixel_axis), self.wsolution(self.raw_pixel_axis) < r[1])
+            self.ax2.plot(reference_lamp_wav_axis[m1], reference_lamp_ccd.data[m1], color='k')
+            self.ax2.plot(self.wsolution(self.raw_pixel_axis)[m2], self.lamp.data[m2], color='r')
+            for val in pixel_values:
+                if r[0] < self.wsolution(val) < r[1]:  
+                    self.ax2.axvline(self.wsolution(val), color='m', zorder=0)
+            for val2 in angstrom_values:
+                if r[0] < val2 < r[1]:
+                    self.ax2.axvline(val2, color='c', linestyle='--', zorder=0)
+
+            r = (4300, 4700)
+            m1 = np.bitwise_and(r[0] < reference_lamp_wav_axis, reference_lamp_wav_axis < r[1])
+            m2 = np.bitwise_and(r[0] < self.wsolution(self.raw_pixel_axis), self.wsolution(self.raw_pixel_axis) < r[1])
+            self.ax3.plot(reference_lamp_wav_axis[m1], reference_lamp_ccd.data[m1], color='k')
+            self.ax3.plot(self.wsolution(self.raw_pixel_axis)[m2], self.lamp.data[m2], color='r')
+            for val in pixel_values:
+                if r[0] < self.wsolution(val) < r[1]:
+                    self.ax3.axvline(self.wsolution(val), color='m', zorder=0)
+            for val2 in angstrom_values:
+                if r[0] < val2 < r[1]:
+                    self.ax3.axvline(val2, color='c', linestyle='--', zorder=0)
+
+            r = (5300, 5700)
+            m1 = np.bitwise_and(r[0] < reference_lamp_wav_axis, reference_lamp_wav_axis < r[1])
+            m2 = np.bitwise_and(r[0] < self.wsolution(self.raw_pixel_axis), self.wsolution(self.raw_pixel_axis) < r[1])
+            self.ax4.plot(reference_lamp_wav_axis[m1], reference_lamp_ccd.data[m1], color='k')
+            self.ax4.plot(self.wsolution(self.raw_pixel_axis)[m2], self.lamp.data[m2], color='r')
+            for val in pixel_values:
+                if r[0] < self.wsolution(val) < r[1]:
+                    self.ax4.axvline(self.wsolution(val), color='m', zorder=0)
+            for val2 in angstrom_values:
+                if r[0] < val2 < r[1]:
+                    self.ax4.axvline(val2, color='c', linestyle='--', zorder=0)
+
             if self.args.save_plots:
 
                 plots_path = os.path.join(self.args.destination, 'plots')
                 if not os.path.isdir(plots_path):
                     os.path.os.makedirs(plots_path)
-                # saves pdf files of the wavelength solution plot
+                # saves png files of the wavelength solution plot
                 out_file_name = 'automatic-solution_' + self.lamp.header[
                     'GSP_FNAM']
                 out_file_name = re.sub('.fits', '', out_file_name)
 
                 file_count = len(glob.glob(os.path.join(self.args.destination,
-                                                        out_file_name + '*'))) +\
+                                                        out_file_name + '*'))) + \
                              1
 
-                out_file_name += '_RMS_{:.3f}_{:03d}.pdf'.format(self.rms_error,
+                out_file_name += '_RMS_{:.3f}_{:03d}.png'.format(self.rms_error,
                                                                  file_count)
-                pdf_pages = PdfPages(
-                    os.path.join(plots_path, out_file_name))
-                plt.savefig(pdf_pages, format='pdf')
-                pdf_pages.close()
 
                 # # saves png images
                 #
-                plot_name = os.path.join(plots_path, re.sub('pdf', 'png', out_file_name))
-                plt.savefig(plot_name, rasterized=True, format='png', dpi=300)
+                plt.savefig(os.path.join(plots_path, out_file_name), rasterized=True, format='png', dpi=300)
 
-                plt.ioff()
+                # plt.ioff()
                 plt.clf()
             if self.args.debug_mode or self.args.plot_results:
                 # print('Here is {0.filename}@{0.lineno}:'.format(inspect.getframeinfo(inspect.currentframe())))
                 # print(dir(self.i_fig))
                 manager = plt.get_current_fig_manager()
 
-                if plt.get_backend() == u'GTK3Agg':
-                    manager.window.maximize()
-                elif plt.get_backend() == u'Qt5Agg':
-                    manager.window.showMaximized()
+                # if plt.get_backend() == u'GTK3Agg':
+                #     manager.window.maximize()
+                # elif plt.get_backend() == u'Qt5Agg':
+                #     manager.window.showMaximized()
 
-                if self.args.debug_mode:
-                    plt.show()
-                elif self.args.plot_results:
+                # if self.args.debug_mode:
+                #     plt.show()
+                if self.args.plot_results:
                     plt.draw()
-                    plt.pause(1)
-                    plt.ioff()
+                    # plt.pause(1)
+                    # plt.ioff()
                     plt.close()
                     # plt.close(self.i_fig)
             # else:
@@ -809,7 +850,8 @@ class WavelengthCalibration(object):
 
             ax.plot(raw_pixel_axis, no_nan_lamp_data, color='k')
             ax.legend(loc='best')
-            plt.show()
+            # plt.ioff()
+            # plt.show()
 
         return lines_center
 
@@ -864,12 +906,12 @@ class WavelengthCalibration(object):
             (self.pixel_size / self.goodman_focal_length) / 2)
 
         self.blue_limit = (
-            (np.sin(self.alpha) + np.sin(self.beta - limit_angle.to(u.rad))) /
-            self.grating_frequency).to(u.angstrom) + blue_correction_factor
+                                  (np.sin(self.alpha) + np.sin(self.beta - limit_angle.to(u.rad))) /
+                                  self.grating_frequency).to(u.angstrom) + blue_correction_factor
 
         self.red_limit = (
-            (np.sin(self.alpha) + np.sin(self.beta + limit_angle.to(u.rad))) /
-            self.grating_frequency).to(u.angstrom) + red_correction_factor
+                                 (np.sin(self.alpha) + np.sin(self.beta + limit_angle.to(u.rad))) /
+                                 self.grating_frequency).to(u.angstrom) + red_correction_factor
 
         pixel_one = 0
         pixel_two = 0
@@ -942,7 +984,7 @@ class WavelengthCalibration(object):
             x_axis = self.wsolution(pixel_axis)
             try:
                 plt.imshow(data)
-                plt.show()
+                # plt.show()
             except TypeError:
                 pass
             new_x_axis = np.linspace(x_axis[0], x_axis[-1], len(data))
@@ -978,7 +1020,7 @@ class WavelengthCalibration(object):
 
                 fig6.tight_layout()
                 plt.legend(loc=3)
-                plt.show()
+                # plt.show()
 
                 fig7 = plt.figure(7)
                 plt.xlabel('Pixels')
@@ -988,7 +1030,7 @@ class WavelengthCalibration(object):
                 plt.plot(new_x_axis, color='r', label='Linear wavelength-axis')
                 fig7.tight_layout()
                 plt.legend(loc=3)
-                plt.show()
+                # plt.show()
 
             linear_data = [new_x_axis, smoothed_linearized_data]
             return linear_data
@@ -1091,20 +1133,18 @@ class WavelengthCalibration(object):
                     label='Lamp Data')
 
             for line in lines:
-
                 ax.axvline(line + 1,
                            color='k',
                            linestyle=':',
                            label='First Detected Center')
 
             for center in new_center:
-
                 ax.axvline(center,
                            color='k',
                            linestyle='.-',
                            label='New Center')
 
-            plt.show()
+            # plt.show()
         return new_center
 
     @staticmethod
@@ -1182,8 +1222,8 @@ class WavelengthCalibration(object):
             if self.args.plot_results:
                 plt.ion()
                 # plt.show()
-            elif self.args.debug_mode:
-                plt.ioff()
+            # elif self.args.debug_mode:
+            #     plt.ioff()
 
             wavelength_axis = self.wsolution(range(ccd.data.size))
 
@@ -1231,14 +1271,13 @@ class WavelengthCalibration(object):
                     manager.window.maximize()
                 elif plt.get_backend() == u'Qt5Agg':
                     manager.window.showMaximized()
-
-                if self.args.debug_mode:
-                    plt.show()
+                #
+                # if self.args.debug_mode:
+                #     plt.show()
                 elif self.args.plot_results:
                     plt.draw()
-                    plt.pause(2)
-                    plt.ioff()
-
+                    # plt.pause(2)
+                    # plt.ioff()
 
                 # return wavelength_solution
 
@@ -1268,6 +1307,7 @@ class WavelengthSolution(object):
     quality.
 
     """
+
     def __init__(self,
                  solution_type=None,
                  model_name=None,
@@ -1400,20 +1440,20 @@ class WavelengthSolution(object):
             for key in new_dict.keys():
                 if self.spectral_dict['camera'] == 'red':
                     if key in ['grating', 'roi', 'instconf', 'wavmode'] and \
-                                    new_dict[key] != self.spectral_dict[key]:
+                            new_dict[key] != self.spectral_dict[key]:
 
                         self.log.info('Keyword: {:s} does not Match'.format(
                             key.upper()))
 
                         self.log.info('{:s} - Solution: {:s} - New '
                                       'Data: {:s}'.format(
-                                           key.upper(),
-                                           self.spectral_dict[key],
-                                           new_dict[key]))
+                            key.upper(),
+                            self.spectral_dict[key],
+                            new_dict[key]))
 
                         return False
 
-                    elif key in ['cam_ang',  'grt_ang'] and \
+                    elif key in ['cam_ang', 'grt_ang'] and \
                             abs(new_dict[key] - self.spectral_dict[key]) > 1:
 
                         self.log.debug('Keyword: {:s} Lamp: {:s} Data: '
@@ -1432,7 +1472,7 @@ class WavelengthSolution(object):
                                'ccdsum',
                                'serial_bin',
                                'parallel_bin'] and \
-                                    new_dict[key] != self.spectral_dict[key]:
+                            new_dict[key] != self.spectral_dict[key]:
 
                         self.log.debug('Keyword: {:s} does not '
                                        'Match'.format(key.upper()))
@@ -1446,8 +1486,8 @@ class WavelengthSolution(object):
 
                     elif key in ['cam_ang',
                                  'grt_ang'] and abs(
-                                float(new_dict[key]) -
-                                float(self.spectral_dict[key])) > 1:
+                        float(new_dict[key]) -
+                        float(self.spectral_dict[key])) > 1:
 
                         self.log.debug('Keyword: {:s} Lamp: {:s} Data: {:s}',
                                        key,
@@ -1507,8 +1547,8 @@ class WavelengthSolution(object):
                     beta = float(header['cam_ang']) - float(header['grt_ang'])
 
                     center_wavelength = (1e6 / grating_frequency) * (
-                        np.sin(alpha * np.pi / 180.) +
-                        np.sin(beta * np.pi / 180.))
+                            np.sin(alpha * np.pi / 180.) +
+                            np.sin(beta * np.pi / 180.))
 
                     self.log.debug(center_wavelength)
 

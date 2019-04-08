@@ -1,0 +1,66 @@
+#!/usr/bin/env python2
+# Usage: update_header camera_tag file1 file2 ... fileN
+# camera_tag: blue or red
+import sys
+from astropy.io import fits
+import numpy as np
+
+camera_tag = sys.argv[1]
+if camera_tag.lower() not in ('blue'): # 'RED',
+    print("Unknown camera type %s." % sys.argv[1])
+
+for fname in sys.argv[2:]:
+    print("Fixing header of %s" % fname)
+    img = fits.open(fname, mode="update", ignore_missing_end=True, verify="fix")
+    # img[0].header["INSTMODE"] = "BLUE"
+    aux = img[0].header["OBJECT"].split()
+    if len(aux) > 1:
+        img[0].header["OBJECT"] = aux[-1]
+    img[0].header["INSTCONF"] = "Blue"
+    img[0].header["WAVMODE"] = "600 Blue"
+    img[0].header["ROI"] = "Spectroscopy 1x1"
+    if img[0].header["GRATING"] == "KOSI_600":
+        print("Updated Grating!")
+        img[0].header["GRATING"] = "SYZY_600-OLD"
+
+    if img[0].header["NAXIS"] == 3:
+        img[0].data = np.squeeze(img[0].data)
+        print("Reduced NAXIS to 2.")
+
+    if img[0].header["RA"] == "":
+        print("Updated RA to 00:00:00!")
+        img[0].header["RA"] = "00:00:00.000"
+    if img[0].header["DEC"] == "":
+        print("Updated DEC to 00:00:00!")
+        img[0].header["DEC"] = "00:00:00.000"
+    if img[0].header["OBSRA"] == "":
+        print("Updated OBSRA to 00:00:00!")
+        img[0].header["OBSRA"] = "00:00:00.000"
+    if img[0].header["OBSDEC"] == "":
+        print("Updated OBSDEC to 00:00:00!")
+        img[0].header["OBSDEC"] = "00:00:00.000"
+
+
+    if img[0].header["OBJECT"] == "CuArHe":
+        print("Updated COMP from CuArHe to CuHeAr")
+        img[0].header["OBJECT"] = "CuHeAr"
+
+    # Remove BSCALE and BZERO. Problems with the calibration lamp
+    # BSCALE = 1
+    # BZERO = 32768
+    # for param in ['BSCALE', 'BZERO']:
+    #     try:
+    #         img[0].header.pop(param)
+    #         print("Removed %s" % param)
+    #     except:
+    #         pass
+
+
+
+    # print(img[0].data.shape,img[0].header["NAXIS"])
+    for param in ['PARAM0', 'PARAM61', 'PARAM62', 'PARAM63']:
+        try:
+            img[0].header.pop(param)
+        except:
+            pass
+    img.close()
